@@ -1,0 +1,9 @@
+<use  name="root"/>
+<use  name="rootgraphics"/>
+<use  name="rootphysics"/>
+<use  name="rootminuit"/>
+<use  name="roofit"/>
+<use  name="roostats"/>
+<use  name="rootminuit2"/>
+<use  name="roottmva"/>
+<flags   EDM_PLUGIN="1"/>

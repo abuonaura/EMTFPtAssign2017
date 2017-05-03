@@ -31,6 +31,7 @@
 #include <map>
 #include <string>
 
+#include "TLeaf.h"
 #include "TChain.h"
 #include "TFile.h"
 #include "TTree.h"
@@ -146,7 +147,7 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
    // Here the preparation phase begins
 
    // Create a new root output file
-   TString outfileName( "PtRegression_AWB_v0_17_01_05_no_wgt_inv_pt_orig_deriv_vars_10k.root" );
+   TString outfileName( "test/PtRegression_AWB_v0_17_01_05_no_wgt_inv_pt_orig_deriv_vars_10k.root" );
    TFile* outputFile = TFile::Open( outfileName, "RECREATE" );
 
    // Create the factory object. Later you can choose the methods
@@ -171,7 +172,7 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
    // load the signal and background event samples from ROOT trees
    TFile *input(0);
    std::vector<TString> fnames;
-   fnames.push_back("/afs/cern.ch/work/a/abrinke1/public/EMTF/Analyzer/ntuples/EMTF_MC_NTuple_SingleMu_noRPC_300k.root");
+   fnames.push_back("test/EMTF_MC_NTuple_SingleMu_noRPC_300k.root");
 
    for (UInt_t i = 0; i < fnames.size(); i++) {
      if ( !gSystem->AccessPathName(fnames.at(i)) )
