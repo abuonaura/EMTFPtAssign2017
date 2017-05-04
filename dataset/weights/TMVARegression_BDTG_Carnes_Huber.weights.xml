@@ -4,11 +4,11 @@
     <Info name="TMVA Release" value="4.2.1 [262657]"/>
     <Info name="ROOT Release" value="6.08/05 [395269]"/>
     <Info name="Creator" value="ggalati"/>
-    <Info name="Date" value="Wed May  3 12:06:37 2017"/>
+    <Info name="Date" value="Thu May  4 10:27:28 2017"/>
     <Info name="Host" value="Linux vocms029.cern.ch 2.6.32-642.13.2.el6.x86_64 #1 SMP Wed Feb 22 21:01:00 CET 2017 x86_64 x86_64 x86_64 GNU/Linux"/>
     <Info name="Dir" value="/afs/cern.ch/work/g/ggalati/CMSSW_9_0_0/src/TMVA/EMTFPtAssign2017"/>
     <Info name="Training events" value="6612"/>
-    <Info name="TrainingTime" value="1.34144772e+02"/>
+    <Info name="TrainingTime" value="1.00368964e+02"/>
     <Info name="AnalysisType" value="Regression"/>
   </GeneralInfo>
   <Options>

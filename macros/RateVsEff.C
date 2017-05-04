@@ -40,7 +40,7 @@ void RateVsEff() {
   TChain* ch_tmp(0);
 
   // List of input files                                                                                                                       
-  TString in_dir = "/afs/cern.ch/work/a/abrinke1/public/EMTF/PtAssign2017/";
+  TString in_dir = "../test/";
   // in_dir = "./";
   std::vector<TString> in_file_names;
   // in_file_names.push_back(in_dir+"PtRegression_AWB_v1_17_01_31_mode_15_opt.root");
@@ -48,7 +48,7 @@ void RateVsEff() {
   // in_file_names.push_back(in_dir+"PtRegression_AWB_v1_17_02_09_mode_15_Sq.root");
   // in_file_names.push_back(in_dir+"PtRegression_AWB_v1_17_02_24_mode_15_opt_pt_1_256_clean.root");
   // in_file_names.push_back(in_dir+"PtRegression_AWB_v1_17_02_24_mode_15_opt_bend1_pt_1_256_clean.root");
-  in_file_names.push_back(in_dir+"PtRegression_AWB_v1_17_03_14_mode_15_opt_bends_dTh_pt_1_256_clean.root");
+  in_file_names.push_back(in_dir+"PtRegression_AWB_v0_17_01_05_no_wgt_inv_pt_orig_deriv_vars_10k.root");
 
   // Open all input files
   for (int i = 0; i < in_file_names.size(); i++) {
