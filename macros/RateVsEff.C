@@ -20,7 +20,7 @@
 
 
 const int    PRTEVT  =    100000;  // When processing file, print every X events
-const int    MAXEVT  =        -1;  // Maximum number of events to process
+const int    MAXEVT  =        10;  // Maximum number of events to process
 const double BIT     =      0.01;  // Shift to trigger pT to get it off bin edge
 const double PTMIN   =       0.0;
 const double PTMAX   =      50.0;
@@ -64,17 +64,18 @@ void RateVsEff() {
   // Target trigger pT: "inv" for 1/pT, "log2" for log2(pT), "" for pT
   std::vector<std::tuple<TString, TString, TChain*, TChain*>> facts;
 
-  // // Original EMTF variables, invPt target, no weighting
+  //// Original EMTF variables, invPt target, no weighting
+  facts.push_back(std::make_tuple("dataset","inv", ch_tmp, ch_tmp));
   // facts.push_back( std::make_tuple("f_0x0000011d_0x2",         "inv",  ch_tmp, ch_tmp) );
   // Optimized mode 15
-  facts.push_back( std::make_tuple("f_0x001f01ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
+  //  facts.push_back( std::make_tuple("f_0x001f01ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
   // facts.push_back( std::make_tuple("f_0x001f01ff_0x4_invPtSq", "log2", ch_tmp, ch_tmp) );
   // // Optimized mode 15 + bend1
   // facts.push_back( std::make_tuple("f_0x001f11ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
   // Optimized mode 15 + dTheta14 + bend1
-  facts.push_back( std::make_tuple("f_0x401f11ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
+  //facts.push_back( std::make_tuple("f_0x401f11ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
   // Optimized mode 15 + dTheta14 + bend1 + bendMax3
-  facts.push_back( std::make_tuple("f_0xc01f11ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
+  //facts.push_back( std::make_tuple("f_0xc01f11ff_0x4_invPt",   "log2", ch_tmp, ch_tmp) );
 
   
   // Add trees from the input files to the TChain
@@ -100,7 +101,17 @@ void RateVsEff() {
 
     MVAs.push_back( std::make_tuple("EMTF_pt",        -99.) );
     
-    MVAs.push_back( std::make_tuple("BDTG_AWB",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_default",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_default_20k_trees",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_default_5_deep",       -99.) );
+
+    MVAs.push_back( std::make_tuple("BDTG_LeastSq",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_LeastSq_20k_trees",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_LeastSq_5_deep",       -99.) );
+
+    MVAs.push_back( std::make_tuple("BDTG_Carnes_AbsDev",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_Carnes_Huber",       -99.) );
+    MVAs.push_back( std::make_tuple("BDTG_Carnes_LeastSq",       -99.) );
     // MVAs.push_back( std::make_tuple("BDTG_AWB_Sq",    -99.) );
 
 
