@@ -1,0 +1,41 @@
+#include "TMath.h"
+#include "TFile.h"
+#include "TSystem.h"
+#include "TChain.h"
+#include "TTree.h"
+#include "TBranch.h"
+
+using namespace TMath;
+
+////#define ETAMIN 1.24;  // Minimum GEN / trigger eta to consider
+//#define ETAMAX 2.40;  // Maximum GEN / trigger eta to consider
+
+void TryEff()
+{
+  const double ETAMIN  =      1.24;  // Minimum GEN / trigger eta to consider              
+  const double ETAMAX  =      2.40;  // Maximum GEN / trigger eta to consider
+
+  TString in_file_name = "PtRegression_AWB_v0_17_01_05_no_wgt_inv_pt_orig_deriv_vars_10k.root";
+  
+  TFile *f = new TFile(in_file_name);
+  if(!f) cout << "No data file!"<<endl;
+
+  TTree *t_test = (TTree*)f->Get("dataset/TestTree");
+  Float_t GEN_pt=0, GEN_eta=0, EMTF_eta=0;
+  t_test->SetBranchAddress("GEN_pt",&GEN_pt);
+  t_test->SetBranchAddress("GEN_eta",&GEN_eta);
+  t_test->SetBranchAddress("EMTF_eta",&EMTF_eta);
+
+  cout<<"Nentries: "<<t_test->GetEntries()<<endl;
+
+  for(Int_t iEv=0; iEv<t_test->GetEntries();iEv++)
+    {
+      t_test->GetEntry(iEv);
+      if(Abs(EMTF_eta)<ETAMIN) continue;
+      if(Abs(EMTF_eta)>ETAMAX) continue;
+      cout<<"EMTF_eta "<<EMTF_eta<<endl;
+    }//end loop on tree
+
+}//THE End
+
+

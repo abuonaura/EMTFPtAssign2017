@@ -109,16 +109,16 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
    Use["BDT"]                     = 0;
 
    Use["BDTG_default"]            = 1;
-   Use["BDTG_default_20k_trees"]  = 1;
-   Use["BDTG_default_5_deep"]     = 1;
+   Use["BDTG_default_20k_trees"]  = 0;
+   Use["BDTG_default_5_deep"]     = 0;
 
-   Use["BDTG_LeastSq"]            = 1;
-   Use["BDTG_LeastSq_20k_trees"]  = 1;
-   Use["BDTG_LeastSq_5_deep"]     = 1;
+   Use["BDTG_LeastSq"]            = 0;
+   Use["BDTG_LeastSq_20k_trees"]  = 0;
+   Use["BDTG_LeastSq_5_deep"]     = 0;
 
-   Use["BDTG_Carnes_AbsDev"]  = 1;
-   Use["BDTG_Carnes_Huber"]   = 1;
-   Use["BDTG_Carnes_LeastSq"] = 1;
+   Use["BDTG_Carnes_AbsDev"]  = 0;
+   Use["BDTG_Carnes_Huber"]   = 0;
+   Use["BDTG_Carnes_LeastSq"] = 0;
    // ---------------------------------------------------------------
 
    std::cout << std::endl;
@@ -246,6 +246,7 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
    spec_vars.push_back( MVA_var( "log2_GEN_pt",  "log_{2}(GEN muon p_{T})", "GeV",      'F', -77 ) );
    spec_vars.push_back( MVA_var( "log2_EMTF_pt", "log_{2}(EMTF p_{T})",     "GeV",      'F', -77 ) );
    spec_vars.push_back( MVA_var( "GEN_eta",      "GEN #eta",                "",         'F', -77 ) );
+   spec_vars.push_back( MVA_var( "EMTF_nHits",   "EMTF nHits",              "",         'I', -77 ) );
    spec_vars.push_back( MVA_var( "EMTF_eta",     "EMTF #eta",               "",         'F', -77 ) );
    for (UInt_t i = 0; i < targ_vars.size(); i++)
      for (UInt_t j = 0; j < spec_vars.size(); j++)
@@ -307,6 +308,7 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
 	 trk_pt *= PT_SCALE;
 	 Double_t trk_theta = (track_br->GetLeaf("theta"))->GetValue(iTrk);
 	 Double_t trk_phi   = (track_br->GetLeaf("phi"))->GetValue(iTrk);
+
 	 int trk_mode       = (track_br->GetLeaf("mode"))->GetValue(iTrk);
 	 if ( trk_mode != 15 ) continue;
 	 if ( ( mu_eta > 0 ) != ( trk_eta > 0 ) ) continue;
@@ -373,7 +375,7 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
 	 Int_t bend3 = CalcBendFromPattern( (track_br->GetLeaf("hit_pattern"))->GetValue(4*iTrk + 2), trk_eta );
 	 Int_t bend4 = CalcBendFromPattern( (track_br->GetLeaf("hit_pattern"))->GetValue(4*iTrk + 3), trk_eta );
 
-
+      
 	 // Initialize all variables
 	 var_vals.clear();
 	 for (UInt_t i = 0; i < all_vars.size(); i++)
@@ -443,7 +445,7 @@ void PtRegression_AWB_v0( TString myMethodList = "" )
 	     var_vals.at(iVar) = mu_eta;
 	   if ( vName == "EMTF_eta" )
 	     var_vals.at(iVar) = trk_eta;
-
+	   
 	 } // End loop: for (UInt_t iVar = 0; iVar < all_vars.size(); iVar++)
 
 	 // Unweighted distribution: flat in eta and 1/pT
