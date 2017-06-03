@@ -38,10 +38,11 @@ void TryEff()
   //********* HISTO **********//
   TH1F *h_GENpt = new TH1F("h_GENpt","GEN pt",100,0,1000);
   TH1F *h_TRGpt = new TH1F("h_TRGpt","TRG pt",100,0,1000);
+  TH1F *h_TRGpt_res = new TH1F("h_TRGpt_res","TRG pt",50,-1,1);
+
   TH2F *h_Dev = new TH2F("h_Dev",";GEN pt (GeV); TRGpt - GENpt (GeV)",100,0,100,100,-10,10);
   TH1D *h_count =  new TH1D( "h_count", "  h_count ", PTBINS, PTMIN, PTMAX );
-  TH2D *h_pt = new TH2D( "h_pt", "h_pt", 1, 10, 200, PTBINS, PTMIN, PTMAX);
-  TH2D *h_pt_1 = new TH2D( "h_pt_1", "h_pt", PTBINS, PTMIN, PTMAX, PTBINS, PTMIN, PTMAX);
+  TH2D *h_pt = new TH2D( "h_pt", "h_pt; GEN pt (GeV); TRG pt (GeV)", PTBINS, PTMIN, PTMAX, PTBINS, PTMIN, PTMAX);
   TH2D *h_eff = new TH2D("h_eff","h_eff",PTBINS, PTMIN, PTMAX, PTBINS, PTMIN, PTMAX);
   TH2D *h_eff_eta = new TH2D("h_eff_eta","h_eff_eta",PTBINS, ETAMIN, ETAMAX, 50,0,1);
   TH1D *h_eff1D = new TH1D("h_eff1D","h_eff1D",100,0,2);
@@ -67,6 +68,7 @@ void TryEff()
 
       h_GENpt->Fill(GEN_pt);
       h_TRGpt->Fill(TRG_pt);
+      h_TRGpt_res->Fill((TRG_pt-GEN_pt)/GEN_pt);
       h_Dev->Fill(GEN_pt,TRG_pt-GEN_pt);
 
       // Fill counts from ZeroBias events
@@ -81,30 +83,16 @@ void TryEff()
 
       h_pt->Fill( GEN_pt, TRG_pt );
 
-      //Old histo
-      h_pt_1->Fill( GEN_pt, TRG_pt );
-
-      float num=0, den = 0, eff=0;
-
-      for (int iBin = 1; iBin <= 1; iBin++) {
-	for (int jBin = PTBINS; jBin >= 1; jBin--) { // Loop over trigger pT bins (y-axis)
-	  num= h_pt->Integral(iBin, iBin, jBin, PTBINS); // Events passing trigger pT cut
-	  den = h_pt->Integral(iBin, iBin,    1, PTBINS); // All events in GEN pT bin
-	  eff = num / den;
-	  h_eff1D->Fill(eff);
-	}
-      }
-      
-
       // Compute 2D efficiency histograms and rate at efficiency threshold histograms
       for (int iBin = 1; iBin <= PTBINS; iBin++) { // Loop over GEN pT bins (x-axis)
 	for (int jBin = PTBINS; jBin >= 1; jBin--) { // Loop over trigger pT bins (y-axis)
-	  float num1 = h_pt_1->Integral(iBin, iBin, jBin, PTBINS); // Events passing trigger pT cut
-	  float den1 = h_pt_1->Integral(iBin, iBin,    1, PTBINS); // All events in GEN pT bin
+	  float num1 = h_pt->Integral(iBin, iBin, jBin, PTBINS); // Events passing trigger pT cut
+	  float den1 = h_pt->Integral(iBin, iBin,    1, PTBINS); // All events in GEN pT bin
 	  float eff1 = num1 / den1;
 	  h_eff_eta->Fill(GEN_eta,eff1);
 	  h_eff->SetBinContent(iBin, jBin, eff1);
 	  h_eff->SetBinError  (iBin, jBin, eff1 * sqrt( (1/num1) + (1/den1) ) );
+	  h_eff1D->Fill(eff1);
 	}//Loop over y-axis
       }//Loop over x-axis
 
@@ -139,6 +127,13 @@ void TryEff()
 
   TCanvas *c5  = new TCanvas("c5","",500,500);
   h_eff_eta->Draw("hist");
+
+  TF1 *f1 = new TF1("f1","pol0(0)+gaus(1)",-1,1);
+  TCanvas *c6  = new TCanvas("c6","",500,500);
+  f1->SetParameter(0,100);
+  f1->SetParameter(3,0.3);
+  h_TRGpt_res->Fit(f1,"R+");
+  h_TRGpt_res->Draw("hist");
 
 
 
